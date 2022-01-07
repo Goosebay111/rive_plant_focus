@@ -21,6 +21,7 @@ class _PlantScreenState extends State<PlantScreen> {
   late Timer _timer;
   int _treeProgress = 0;
   int _treeMaxProgress = 60;
+  double _percent = 1.0;
 
   @override
   void initState() {
@@ -28,6 +29,7 @@ class _PlantScreenState extends State<PlantScreen> {
     plantButtonText = 'Plant';
     rootBundle.load('assets/tree_demo.riv').then(
       (data) async {
+        /// Rive
         final file = RiveFile.import(data);
         final artboard = file.mainArtboard;
         var controller = StateMachineController.fromArtboard(artboard, 'Grow');
@@ -47,12 +49,16 @@ class _PlantScreenState extends State<PlantScreen> {
       (Timer timer) {
         if (_treeProgress == _treeMaxProgress) {
           stopTimer();
-          plantButtonText = 'Plant';
-          _treeProgress = 0;
-          _treeMaxProgress = 60;
+          setState(() {
+            plantButtonText = 'Plant';
+            _treeProgress = 0;
+            _treeMaxProgress = 60;
+            _percent = 1.0;
+          });
         } else {
           setState(() {
             _treeProgress += 1;
+            _percent = (60 - _treeProgress) / 60;
             //rive
             _progress?.value = _treeProgress.toDouble();
           });
@@ -91,19 +97,35 @@ class _PlantScreenState extends State<PlantScreen> {
                 _riveArtboard == null
                     ? const SizedBox()
                     : Center(
-                        child: Container(
-                          width: treeWidth,
-                          height: treeWidth,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(treeWidth / 2),
-                            border:
-                                Border.all(color: Colors.white12, width: 10),
+                        child: Expanded(
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: SizedBox(
+                                    height: treeWidth,
+                                    width: treeWidth,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white38,
+                                      backgroundColor: Colors.white12,
+                                      value: _percent,
+                                      strokeWidth: 10,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: treeWidth * 0.9,
+                                height: treeWidth * 0.9,
+                                child:
+                                    //RIVE
+                                    Rive(
+                                        alignment: Alignment.center,
+                                        artboard: _riveArtboard!),
+                              ),
+                            ],
                           ),
-                          child:
-                              //RIVE
-                              Rive(
-                                  alignment: Alignment.center,
-                                  artboard: _riveArtboard!),
                         ),
                       ),
           ),
