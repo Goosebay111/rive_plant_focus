@@ -32,10 +32,10 @@ class _PlantScreenState extends State<PlantScreen> {
         /// Rive
         final file = RiveFile.import(data);
         final artboard = file.mainArtboard;
-        var controller = StateMachineController.fromArtboard(artboard, 'Grow');
-        if (controller != null) {
-          artboard.addController(controller);
-          _progress = controller.findInput('input');
+        _controller = StateMachineController.fromArtboard(artboard, 'Grow');
+        if (_controller != null) {
+          artboard.addController(_controller!);
+          _progress = _controller!.findInput('input');
           setState(() => _riveArtboard = artboard);
         }
       },
