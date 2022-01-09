@@ -97,35 +97,31 @@ class _PlantScreenState extends State<PlantScreen> {
                 _riveArtboard == null
                     ? const SizedBox()
                     : Center(
-                        child: Expanded(
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Expanded(
-                                child: Center(
-                                  child: SizedBox(
-                                    height: treeWidth,
-                                    width: treeWidth,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white38,
-                                      backgroundColor: Colors.white12,
-                                      value: _percent,
-                                      strokeWidth: 10,
-                                    ),
-                                  ),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Center(
+                              child: SizedBox(
+                                height: treeWidth,
+                                width: treeWidth,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white38,
+                                  backgroundColor: Colors.white12,
+                                  value: _percent,
+                                  strokeWidth: 10,
                                 ),
                               ),
-                              SizedBox(
-                                width: treeWidth * 0.9,
-                                height: treeWidth * 0.9,
-                                child:
-                                    //RIVE
-                                    Rive(
-                                        alignment: Alignment.center,
-                                        artboard: _riveArtboard!),
-                              ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              width: treeWidth * 0.9,
+                              height: treeWidth * 0.9,
+                              child:
+                                  //RIVE
+                                  Rive(
+                                      alignment: Alignment.center,
+                                      artboard: _riveArtboard!),
+                            ),
+                          ],
                         ),
                       ),
           ),
